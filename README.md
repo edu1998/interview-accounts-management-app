@@ -1,59 +1,75 @@
 # AccountsMangementApp
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.4.
+AccountsMangementApp es una aplicación web desarrollada con Angular cuyo objetivo es facilitar la gestión de cuentas: permitir la visualización, creación de cuentas de banco de manera eficiente y centralizada. Está pensada como una solución para administrar información de cuentas en entornos empresariales o de proyectos.
 
-## Development server
+## Características principales
+- Listado de cuentas
+- Creación cuentas
+- Interfaz amigable, responsiva y moderna gracias a Angular
 
-To start a local development server, run:
+## Requisitos previos
+Asegúrate de tener instalado lo siguiente antes de comenzar:
 
+- [Node.js](https://nodejs.org/) (recomendado: versión 18.x o superior)
+- [Angular CLI](https://angular.dev/tools/cli) (recomendado: versión 16.x o superior)
+
+Si no tienes Angular CLI, instálalo globalmente:
 ```bash
-ng serve
+npm install -g @angular/cli
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Instalación y ejecución local
+Sigue estos pasos para correr la aplicación en tu entorno local:
 
-## Code scaffolding
+1. Clona este repositorio y accede a la carpeta del proyecto:
+   ```bash
+   git clone <URL-del-repositorio>
+   cd accounts-mangement-app
+   ```
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+2. Instala las dependencias necesarias:
+   ```bash
+   npm install
+   ```
 
+3. Inicia el servidor de desarrollo:
+   ```bash
+   ng serve
+   ```
+
+4. Abre tu navegador y navega a `http://localhost:4200/` para ver la aplicación en ejecución. La aplicación recargará automáticamente al detectar cambios en los archivos fuente.
+
+## Comandos útiles
+
+### Generar componentes u otros elementos
+Utiliza Angular CLI para generar componentes, servicios y más:
 ```bash
-ng generate component component-name
+ng generate component nombre-componente
 ```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
+Consulta todas las opciones disponibles:
 ```bash
 ng generate --help
 ```
 
-## Building
-
-To build the project run:
-
+### Construir la aplicación para producción
+Para compilar el proyecto y optimizarlo para producción:
 ```bash
 ng build
 ```
+El resultado se almacenará en la carpeta `dist/`.
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
+### Ejecutar pruebas unitarias
+Para ejecutar las pruebas unitarias con [Karma](https://karma-runner.github.io):
 ```bash
 ng test
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
+### Pruebas end-to-end (E2E)
+Para pruebas de extremo a extremo:
 ```bash
 ng e2e
 ```
+*Nota: Angular CLI puede requerir que configures una herramienta de testing end-to-end a tu elección.*
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Más información
+Consulta la [documentación oficial de Angular](https://angular.dev/) para aprender más sobre el framework y sus herramientas.

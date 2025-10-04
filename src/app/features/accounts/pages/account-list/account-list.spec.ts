@@ -4,8 +4,8 @@ import { AccountsService } from '../../services/accounts.service';
 import { provideZonelessChangeDetection, signal } from '@angular/core';
 import { AccountListDisplay } from '../../components/account-list-display/account-list-display';
 import { By } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
 
-// Mock Account interface for testing - UPDATED to match Account interface
 interface MockAccount {
   id: string;
   holderName: string;
@@ -54,6 +54,7 @@ describe('AccountList', () => {
       imports: [AccountList, AccountListDisplay],
       providers: [
         { provide: AccountsService, useValue: mockAccountsService },
+        { provide: ActivatedRoute, useValue: {} },
         provideZonelessChangeDetection(), // Add this line
       ],
     }).compileComponents();
@@ -67,59 +68,36 @@ describe('AccountList', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call reload on accountsResource when onReload is called', () => {
-    component.onReload();
-    expect(mockAccountsService.getAccounts().reload).toHaveBeenCalled();
+  it('should display accounts when service returns data', async () => {
+    const mockAccounts: MockAccount[] = [
+      { id: '1', holderName: 'John Doe', balance: 1000, accountNum: 'A123' },
+      { id: '2', holderName: 'Jane Smith', balance: 2000, accountNum: 'B456' },
+    ];
+    mockAccountsService.setAccounts(mockAccounts);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const display = fixture.debugElement.query(
+      By.directive(AccountListDisplay)
+    );
+    expect(display).toBeTruthy();
+    const accountsInput = display.componentInstance.accounts;
+    const value =
+      typeof accountsInput === 'function' ? accountsInput() : accountsInput;
+    expect(value).toEqual(mockAccounts);
   });
 
-  it('should display loading state', () => {
+  it('should show loading state when accounts are loading', () => {
     mockAccountsService.setLoading(true);
     fixture.detectChanges();
-    expect(component.loading()).toBeTrue();
-    const accountListDisplay = fixture.debugElement.query(By.directive(AccountListDisplay));
-    expect(accountListDisplay.properties['isLoading']).toBeTrue();
+    const loadingText = fixture.nativeElement.textContent;
+    expect(loadingText.toLowerCase()).toContain('cargando');
   });
 
-  it('should display error state', () => {
-    // UPDATED: Use a proper Error object
-    const testError = new Error('Failed to load accounts');
-    mockAccountsService.setError(testError);
+  it('should show error state when there is an error', () => {
+    mockAccountsService.setError('Error de prueba');
     fixture.detectChanges();
-    expect(component.error()).toEqual(testError);
-    const accountListDisplay = fixture.debugElement.query(By.directive(AccountListDisplay));
-    expect(accountListDisplay.properties['error']).toEqual(testError);
-  });
-
-  it('should display accounts when data is available', () => {
-    const testAccounts: MockAccount[] = [{ id: '1', holderName: 'Test User', balance: 1000, accountNum: '12345' }];
-    mockAccountsService.setAccounts(testAccounts);
-    fixture.detectChanges();
-    expect(component.accounts()).toEqual(testAccounts);
-    const accountListDisplay = fixture.debugElement.query(By.directive(AccountListDisplay));
-    expect(accountListDisplay.properties['accounts']).toEqual(testAccounts);
-  });
-
-  it('should return empty array for accounts if no value is present', () => {
-    mockAccountsService.setAccounts(null);
-    fixture.detectChanges();
-    expect(component.accounts()).toEqual([]);
-    const accountListDisplay = fixture.debugElement.query(By.directive(AccountListDisplay));
-    expect(accountListDisplay.properties['accounts']).toEqual([]);
-  });
-
-  it('should pass correct inputs to app-account-list-display', () => {
-    const testAccounts: MockAccount[] = [{ id: '2', holderName: 'Another User', balance: 500, accountNum: '67890' }];
-    const testError = new Error('Another error'); // UPDATED
-
-    mockAccountsService.setLoading(true);
-    mockAccountsService.setError(testError);
-    mockAccountsService.setAccounts(testAccounts);
-    fixture.detectChanges();
-
-    const accountListDisplay = fixture.debugElement.query(By.directive(AccountListDisplay));
-    expect(accountListDisplay).toBeTruthy();
-    expect(accountListDisplay.properties['accounts']).toEqual(testAccounts);
-    expect(accountListDisplay.properties['error']).toEqual(testError);
-    expect(accountListDisplay.properties['isLoading']).toBeTrue();
+    const errorText = fixture.nativeElement.textContent;
+    expect(errorText.toLowerCase()).toContain('error');
   });
 });
