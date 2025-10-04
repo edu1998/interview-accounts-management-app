@@ -1,0 +1,15 @@
+<div
+  class="flex justify-between w-full p-6 bg-white border border-gray-200 rounded-lg shadow"
+>
+  @let transaction = transactionInfo();
+  <p class="text-lg font-medium text-gray-900">
+    {{ transaction.type | transactionTypeTranslate }}
+  </p>
+  <p
+    class="text-lg font-bold"
+    [class.text-green-600]="transaction.type === 'DEPOSIT'"
+    [class.text-red-600]="transaction.type === 'WITHDRAWAL'"
+  >
+    {{ transaction.amount | transactionSign:transaction.type | currency:'COP' }}
+  </p>
+</div>

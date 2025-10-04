@@ -1,0 +1,11 @@
+<div class="p-4">
+  <div class="flex justify-end mb-4">
+    <button
+      (click)="onReload()"
+      class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 pointer-events cursor-pointer"
+    >
+      Recargar Cuentas
+    </button>
+  </div>
+  <app-account-list-display [accounts]="accounts()" [error]="error()" [isLoading]="loading()"></app-account-list-display>
+</div>

@@ -1,0 +1,5 @@
+<div class="flex flex-col gap-3">
+  @for (transaction of transactions(); track transaction.id) {
+    <app-transaction-card [transactionInfo]="transaction"></app-transaction-card>
+  }
+</div>

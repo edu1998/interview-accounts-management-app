@@ -1,0 +1,17 @@
+<div class="flex flex-col items-center gap-10 p-4">
+  <div class="w-lg">
+    <h2 class="text-2xl pb-3 font-bold text-gray-800">Detalles de la cuenta</h2>
+    <app-account-card [isClicked]="false" [account]="account()"></app-account-card>
+  </div>
+  <div class="w-lg">
+    <div class="flex justify-between pb-3">
+      <h2 class="text-2xl pb-3 font-bold text-gray-800">Transacciones</h2>
+      <button (click)="openModal()" class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 cursor-pointer">Agregar</button>
+    </div>
+    <app-transaction-list-display [transactions]="transactions()"></app-transaction-list-display>
+  </div>
+</div>
+
+<app-modal [title]="'Agregar Transacción'" [isOpen]="isModalOpen()" (closeModal)="closeModal()">
+  <app-transaction-form (transactionSubmitted)="handleTransactionSubmitted($event)"></app-transaction-form>
+</app-modal>

@@ -1,0 +1,14 @@
+<div
+  class="w-full p-6 bg-white border border-gray-200 rounded-lg shadow {{isClicked() && 'cursor-pointer hover:bg-gray-100'}}"
+  [routerLink]="isClicked() ? ['/accounts', account()?.id] : undefined"
+>
+  <a [routerLink]="isClicked() ? ['/accounts', account()?.id] : undefined">
+    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">
+      {{ account()?.holderName }}
+    </h5>
+  </a>
+  <p class="mb-3 font-normal text-gray-700">
+    Numero de cuenta: {{ account()?.accountNum }}
+  </p>
+  <p class="mb-3 font-normal text-gray-700">Balance: {{ account()?.balance | currency:'COP' }}</p>
+</div>
