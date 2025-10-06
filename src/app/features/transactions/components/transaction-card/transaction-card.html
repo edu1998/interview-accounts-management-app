@@ -10,6 +10,6 @@
     [class.text-green-600]="transaction.type === 'DEPOSIT'"
     [class.text-red-600]="transaction.type === 'WITHDRAWAL'"
   >
-    {{ transaction.amount | transactionSign:transaction.type | currency:'COP' }}
+    {{ transaction.amount | transactionSign:transaction.type | currency:'COP':'code':'1.2-2' }}
   </p>
 </div>

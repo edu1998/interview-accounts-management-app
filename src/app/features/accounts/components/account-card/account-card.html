@@ -3,12 +3,18 @@
   [routerLink]="isClicked() ? ['/accounts', account()?.id] : undefined"
 >
   <a [routerLink]="isClicked() ? ['/accounts', account()?.id] : undefined">
-    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">
+    <h5 class="mb-3 text-2xl font-bold tracking-tight text-gray-900">
       {{ account()?.holderName }}
     </h5>
   </a>
   <p class="mb-3 font-normal text-gray-700">
-    Numero de cuenta: {{ account()?.accountNum }}
+    <span class="text-gray-500">Numero de cuenta: </span>
+    <span class="font-mono text-gray-700">{{ account()?.accountNum }}</span>
   </p>
-  <p class="mb-3 font-normal text-gray-700">Balance: {{ account()?.balance | currency:'COP' }}</p>
+  <p>
+    <span class="text-gray-500">Balance: </span>
+    <span class="font-semibold text-green-700 text-l"
+      >{{ account()?.balance | currency:'COP':'code':'1.2-2' }}</span
+    >
+  </p>
 </div>

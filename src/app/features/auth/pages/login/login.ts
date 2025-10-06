@@ -3,6 +3,7 @@ import { LoginForm } from '../../components/login-form/login-form';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { AlertService } from '../../../../shared/services/alert.service';
 
 @Component({
   selector: 'app-login',
@@ -14,6 +15,7 @@ import { Router } from '@angular/router';
 export class Login {
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
+  private readonly alertService = inject(AlertService);
 
   onLogin(credentials: { username: string; pass: string }) {
     this.authService.login(credentials).subscribe({
@@ -22,8 +24,10 @@ export class Login {
         this.router.navigate(['/accounts']);
       },
       error: (error) => {
-        console.error('Login failed', error);
-        // TODO: Show error message to the user
+        this.alertService.showAlert({
+          message: error.error.message,
+          type: 'danger',
+        });
       },
     });
   }

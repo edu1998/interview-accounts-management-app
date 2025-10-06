@@ -1,5 +1,5 @@
 import { Component, computed, inject, input, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { AccountsService } from '../../services/accounts.service';
 import { AccountCard } from '../../components/account-card/account-card';
 import { TransactionService } from '../../../transactions/services/transaction.service';
@@ -7,6 +7,7 @@ import { TransactionListDisplay } from '../../../transactions/components/transac
 import { Transaction } from '../../../../resources/interfaces/transaction.interface';
 import { ModalComponent } from '../../../../shared/components/modal/modal';
 import { TransactionFormComponent } from '../../../transactions/components/transaction-form/transaction-form';
+import { AlertService } from '../../../../shared/services/alert.service';
 
 @Component({
   selector: 'app-account-details',
@@ -24,6 +25,8 @@ import { TransactionFormComponent } from '../../../transactions/components/trans
 export class AccountDetails {
   private readonly accountsService = inject(AccountsService);
   private readonly transactionService = inject(TransactionService);
+  private readonly alertService = inject(AlertService);
+  private readonly location = inject(Location);
 
   public readonly accountId = input.required<string>();
   public isModalOpen = signal(false);
@@ -48,6 +51,10 @@ export class AccountDetails {
     return [];
   });
 
+  goBack(): void {
+    this.location.back();
+  }
+
   openModal(): void {
     this.isModalOpen.set(true);
   }
@@ -64,10 +71,19 @@ export class AccountDetails {
         ...newTransaction,
         accountId: this.accountId(),
       })
-      .subscribe((res) => {
-        console.log(res);
-        this.transactionsResource.reload();
-        this.closeModal();
+      .subscribe({
+        next: () => {
+          this.accountResource.reload();
+          this.transactionsResource.reload();
+          this.closeModal();
+        },
+        error: (error) => {
+          console.log(error);
+          this.alertService.showAlert({
+            message: error.error.description,
+            type: 'danger',
+          });
+        },
       });
   }
 }

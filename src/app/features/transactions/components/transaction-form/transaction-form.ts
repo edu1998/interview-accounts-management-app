@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Transaction } from '../../../../resources/interfaces/transaction.interface';
 import { TransactionType } from '../../../../resources/enums/transaction-type.enum';
+import { CurrencyFormatterDirective } from '../../../../shared/directives/currency-formatter.directive';
 
 @Component({
   selector: 'app-transaction-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, CurrencyFormatterDirective],
   templateUrl: './transaction-form.html',
   styleUrl: './transaction-form.scss',
 })
@@ -18,7 +19,7 @@ export class TransactionFormComponent {
 
   transactionForm = this.fb.group({
     type: [TransactionType.DEPOSIT, Validators.required],
-    amount: [10000, [Validators.required, Validators.min(1)]],
+    amount: [0, [Validators.required, Validators.min(1)]],
   });
 
   protected readonly TransactionType = TransactionType;
@@ -33,7 +34,7 @@ export class TransactionFormComponent {
       this.transactionSubmitted.emit(newTransaction);
       this.transactionForm.reset({
         type: TransactionType.DEPOSIT,
-        amount: 10000,
+        amount: 0,
       });
     }
   }
